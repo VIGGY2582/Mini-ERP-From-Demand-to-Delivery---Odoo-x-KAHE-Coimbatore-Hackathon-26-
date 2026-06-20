@@ -103,3 +103,22 @@ model Vendor {
 
   @@map("vendors")
 }
+
+model Customer {
+  id             Int      @id @default(autoincrement())
+  customerCode   String   @unique
+  name           String
+  contactPerson  String?
+  email          String   @unique
+  phone          String?
+  address        String?
+  city           String?
+  state          String?
+  country        String?
+  postalCode     String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("customers")
+}
