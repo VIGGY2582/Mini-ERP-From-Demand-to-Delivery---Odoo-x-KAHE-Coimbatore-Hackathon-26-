@@ -47,16 +47,23 @@ model Category {
 }
 
 model Product {
-  id           Int      @id @default(autoincrement())
-  name        String   @unique
-  sku         String   @unique
-  description String?
-  price       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  categoryId   Int
-  category    Category @relation(fields: [categoryId], references: [id])
-  inventory    Inventory?
+  id            Int      @id @default(autoincrement())
+  name          String
+  sku           String   @unique
+  description   String?
+  categoryId    Int
+  vendorId      Int
+  type          String   // RAW_MATERIAL | FINISHED_GOOD
+  unit          String?
+  sellingPrice  Float
+  purchasePrice Float
+  minimumStock  Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  category      Category @relation(fields: [categoryId], references: [id])
+  vendor        Vendor   @relation(fields: [vendorId], references: [id])
+  inventory     Inventory?
   stockMovements StockMovement[]
 
   @@map("products")
@@ -100,6 +107,7 @@ model Vendor {
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  products      Product[]
 
   @@map("vendors")
 }
