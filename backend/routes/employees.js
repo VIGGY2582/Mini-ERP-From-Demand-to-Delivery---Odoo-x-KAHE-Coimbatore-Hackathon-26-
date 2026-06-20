@@ -1,7 +1,8 @@
-import { Router } from 'express';
+import { authorize } from '../middleware/authorize.js';
 import * as employeesController from '../controllers/employeesController.js';
 
-const router = Router();
+router.use(authorize('Admin'));
+
 
 router.get('/', employeesController.getAllEmployees);
 router.post('/', employeesController.createEmployee);
