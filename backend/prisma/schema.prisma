@@ -8,26 +8,28 @@ generator client {
 }
 
 model Employee {
-  id         String   @id @default(uuid())
-  employeeId String   @unique
-  firstName  String
-  lastName   String
-  email      String   @unique
-  password   String
-  phone      String?
-  roleId     String
-  status     String   @default("active") // e.g. active, inactive, suspended
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  role       Role     @relation(fields: [roleId], references: [id])
+  id           Int      @id @default(autoincrement())
+  employeeCode String   @unique
+  firstName    String
+  lastName     String
+  email        String   @unique
+  passwordHash String
+  phone        String?
+  isActive     Boolean  @default(true)
+  roleId       Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  role         Role     @relation(fields: [roleId], references: [id])
 
   @@map("employees")
 }
 
 model Role {
-  id          String     @id @default(uuid())
-  name        String     @unique
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   employees   Employee[]
 
   @@map("roles")
