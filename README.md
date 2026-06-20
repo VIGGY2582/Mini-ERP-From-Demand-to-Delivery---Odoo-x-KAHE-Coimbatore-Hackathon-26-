@@ -134,3 +134,6 @@ The skeleton is prepared with router/controller/service/repository boundaries to
 8. **Bill of Materials (BOM) & Manufacturing**
 9. **Stock Ledger & Audit Logging**
 10. **Reports & Dashboards**
+
+
+hi
