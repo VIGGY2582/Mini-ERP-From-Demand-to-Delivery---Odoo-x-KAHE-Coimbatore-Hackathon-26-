@@ -84,3 +84,22 @@ model StockMovement {
 
   @@map("stock_movements")
 }
+
+model Vendor {
+  id            Int      @id @default(autoincrement())
+  vendorCode    String   @unique
+  name          String
+  contactPerson String?
+  email         String   @unique
+  phone         String?
+  address       String?
+  city          String?
+  state         String?
+  country       String?
+  postalCode    String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("vendors")
+}
