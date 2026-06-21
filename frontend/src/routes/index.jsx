@@ -7,7 +7,7 @@ import DashboardLayout from '../layouts/DashboardLayout.jsx';
 import Login from '../pages/Login.jsx';
 import Dashboard from '../pages/Dashboard.jsx';
 import Unauthorized from '../pages/Unauthorized.jsx';
-import NotFound from '../pages/NotFound.jsx';
+import NotFound from '../pages/errors/NotFound.jsx';
 import ModulePlaceholder from '../pages/ModulePlaceholder.jsx';
 import Categories from '../pages/categories/Categories.jsx';
 import Vendors from '../pages/vendors/Vendors.jsx';
