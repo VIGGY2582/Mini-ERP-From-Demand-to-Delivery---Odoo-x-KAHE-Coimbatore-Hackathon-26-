@@ -65,6 +65,7 @@ model Product {
   vendor        Vendor   @relation(fields: [vendorId], references: [id])
   inventory     Inventory?
   stockMovements StockMovement[]
+  bom           BoM?
 
   @@map("products")
 }
@@ -158,4 +159,29 @@ model SalesOrderLine {
   salesOrder   SalesOrder @relation(fields: [salesOrderId], references: [id], onDelete: Cascade)
 
   @@map("sales_order_lines")
+}
+
+model BoM {
+  id        Int      @id @default(autoincrement())
+  productId Int      @unique
+  version   String   @default("1.0")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
+  lines     BoMLine[]
+
+  @@map("boms")
+}
+
+model BoMLine {
+  id               Int      @id @default(autoincrement())
+  bomId            Int
+  componentProductId Int
+  quantity         Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  bom              BoM      @relation(fields: [bomId], references: [id], onDelete: Cascade)
+
+  @@map("bom_lines")
 }
