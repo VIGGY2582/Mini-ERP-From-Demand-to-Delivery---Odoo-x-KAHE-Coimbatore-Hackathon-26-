@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Alert, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap';
 import { FiPlus, FiRefreshCw } from 'react-icons/fi';
 import categoryService from '../../services/category.service.js';
 import CategoryTable from '../../components/categories/CategoryTable.jsx';
 import CategoryForm from '../../components/categories/CategoryForm.jsx';
 import DeleteCategoryModal from '../../components/categories/DeleteCategoryModal.jsx';
+import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
+import EmptyState from '../../components/common/EmptyState.jsx';
+import PageHeader from '../../components/common/PageHeader.jsx';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -89,20 +92,13 @@ const Categories = () => {
 
   return (
     <Container fluid className="px-0 py-2">
-      <Row className="mb-4">
-        <Col>
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
-              <h2 className="fw-bold mb-1">Categories</h2>
-              <p className="text-muted mb-0">Manage product categories</p>
-            </div>
-            <Button variant="primary" onClick={handleAddClick}>
-              <FiPlus className="me-2" />
-              Add Category
-            </Button>
-          </div>
-        </Col>
-      </Row>
+      <PageHeader
+        title="Categories"
+        subtitle="Manage product categories"
+        onAdd={handleAddClick}
+        onRefresh={fetchCategories}
+        loading={loading}
+      />
 
       {error && (
         <Alert variant="danger" dismissible onClose={() => setError(null)}>
@@ -119,24 +115,17 @@ const Categories = () => {
       <Row>
         <Col>
           <Card className="shadow-sm">
-            <Card.Header className="bg-white border-bottom d-flex justify-content-between align-items-center">
+            <Card.Header className="bg-white border-bottom">
               <span className="fw-semibold">All Categories</span>
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                onClick={fetchCategories}
-                disabled={loading}
-              >
-                <FiRefreshCw className={loading ? 'spin-animation' : ''} />
-              </Button>
             </Card.Header>
             <Card.Body className="p-0">
               {loading ? (
-                <div className="text-center py-5">
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
-                </div>
+                <LoadingSpinner />
+              ) : categories.length === 0 ? (
+                <EmptyState
+                  message="No categories found"
+                  subMessage="Create your first category to get started"
+                />
               ) : (
                 <CategoryTable
                   categories={categories}

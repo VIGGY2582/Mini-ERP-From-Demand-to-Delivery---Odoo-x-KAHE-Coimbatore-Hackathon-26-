@@ -4,8 +4,10 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { 
   FiGrid, FiUsers, FiBox, FiFolder, FiShoppingBag, FiTruck, 
   FiLayers, FiDollarSign, FiShoppingCart, FiList, FiCpu, 
-  FiFileText, FiActivity, FiPieChart, FiLogOut, FiMenu, FiX, FiUser
+  FiFileText, FiActivity, FiPieChart, FiLogOut, FiMenu, FiX, FiUser,
+  FiBell
 } from 'react-icons/fi';
+import { Dropdown, Badge } from 'react-bootstrap';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
@@ -67,7 +69,7 @@ const DashboardLayout = () => {
                   <Link
                     to={item.path}
                     onClick={() => setSidebarOpen(false)}
-                    className={`nav-link text-white d-flex align-items-center gap-3 px-3 py-2 ${
+                    className={`nav-link text-white d-flex align-items-center gap-3 px-3 py-2 rounded ${
                       isActive ? 'active bg-primary' : 'hover-opacity'
                     }`}
                     style={!isActive ? { opacity: 0.75 } : {}}
@@ -114,19 +116,50 @@ const DashboardLayout = () => {
 
             {/* Profile Dropdown */}
             <div className="ms-auto d-flex align-items-center gap-3">
-              <div className="text-end d-none d-sm-block">
-                <div className="fw-bold text-dark">{user?.name || 'Administrator'}</div>
-                <div className="text-muted small" style={{ fontSize: '0.8rem' }}>{user?.email || 'admin@erp.com'}</div>
-              </div>
-              <div className="bg-light p-2 rounded-circle border d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                <FiUser size={20} className="text-secondary" />
-              </div>
+              {/* Notification Icon */}
+              <button className="btn btn-link text-dark position-relative p-0 border-0">
+                <FiBell size={20} />
+                <Badge 
+                  bg="danger" 
+                  className="position-absolute top-0 start-100 translate-middle"
+                  style={{ fontSize: '0.5rem', padding: '0.2rem 0.35rem' }}
+                >
+                  3
+                </Badge>
+              </button>
+
+              <Dropdown align="end">
+                <Dropdown.Toggle 
+                  variant="light" 
+                  className="d-flex align-items-center gap-2 border-0 bg-transparent"
+                  id="user-dropdown"
+                >
+                  <div className="bg-primary bg-opacity-10 p-2 rounded-circle border d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
+                    <FiUser size={20} className="text-primary" />
+                  </div>
+                  <div className="text-start d-none d-sm-block">
+                    <div className="fw-bold text-dark small">{user?.name || 'Administrator'}</div>
+                    <div className="text-muted small" style={{ fontSize: '0.75rem' }}>{user?.email || 'admin@erp.com'}</div>
+                  </div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => navigate('/dashboard')}>
+                    <FiGrid className="me-2" />
+                    Dashboard
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={handleLogout} className="text-danger">
+                    <FiLogOut className="me-2" />
+                    Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
         </header>
 
         {/* Content Viewport */}
-        <main className="flex-grow-1 overflow-y-auto bg-light p-4 content-area">
+        <main className="flex-grow-1 overflow-y-auto bg-light p-3 p-md-4 content-area">
           <Outlet />
         </main>
       </div>

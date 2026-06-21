@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { 
   FiUsers, FiBox, FiShoppingBag, FiTruck, 
-  FiLayers, FiDollarSign, FiShoppingCart, FiCpu
+  FiLayers, FiDollarSign, FiShoppingCart, FiCpu,
+  FiTrendingUp, FiActivity
 } from 'react-icons/fi';
 
 const Dashboard = () => {
@@ -22,6 +23,13 @@ const Dashboard = () => {
     { name: 'Manufacturing', path: '/dashboard/manufacturing', icon: <FiCpu size={28} />, count: '0 Active Work', color: '#14b8a6', desc: 'Plan bill of materials, work orders and production.' },
   ];
 
+  const stats = [
+    { name: 'Total Sales', value: '$0.00', icon: <FiTrendingUp size={24} />, color: '#10b981', change: '+0%' },
+    { name: 'Total Orders', value: '0', icon: <FiActivity size={24} />, color: '#4f46e5', change: '+0%' },
+    { name: 'Active Products', value: '0', icon: <FiBox size={24} />, color: '#0ea5e9', change: '+0%' },
+    { name: 'Total Customers', value: '0', icon: <FiShoppingBag size={24} />, color: '#f59e0b', change: '+0%' },
+  ];
+
   return (
     <Container fluid className="px-0 py-2">
       {/* Welcome Banner */}
@@ -30,7 +38,33 @@ const Dashboard = () => {
         <p className="text-secondary mb-0">Here is a quick overview of your ERP module configurations.</p>
       </div>
 
-      {/* Grid of Cards */}
+      {/* Statistics Cards */}
+      <Row className="g-4 mb-4">
+        {stats.map((stat) => (
+          <Col key={stat.name} xs={12} sm={6} lg={3}>
+            <Card className="h-100 shadow-sm border-0">
+              <Card.Body className="p-4">
+                <div className="d-flex justify-content-between align-items-start mb-3">
+                  <div 
+                    className="p-3 rounded-2 text-white" 
+                    style={{ backgroundColor: stat.color }}
+                  >
+                    {stat.icon}
+                  </div>
+                  <span className="badge bg-light text-dark border fw-semibold">
+                    {stat.change}
+                  </span>
+                </div>
+                <h5 className="text-muted small mb-1">{stat.name}</h5>
+                <h3 className="fw-bold mb-0">{stat.value}</h3>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Grid of Module Cards */}
+      <h5 className="fw-bold mb-3">Quick Access</h5>
       <Row className="g-4">
         {cards.map((card) => (
           <Col key={card.name} xs={12} sm={6} lg={4} xl={3}>
